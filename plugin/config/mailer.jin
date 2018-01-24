@@ -1,0 +1,34 @@
+[smtp]
+	; host =
+	; user =
+	; pass =
+	; port =
+	; tls  = true
+
+[contacts]
+
+	debug = {
+		"name": null,
+		"email": null
+	}
+
+	sender = {
+		"name": null,
+		"email": null
+	}
+
+[twig]
+
+	paths = {
+		"emails": "content/emails"
+	}
+
+[application]
+
+	delegates = [
+		"Hiraeth\\Mailer\\PHPMailerDelegate"
+	]
+
+	providers = [
+		"Hiraeth\\Mailer\\MailerProvider"
+	]
