@@ -20,7 +20,7 @@ class MailerProvider implements Provider
 	 */
 	static public function getInterfaces()
 	{
-		return ['Hiraeth\Mailer'];
+		return ['Hiraeth\Mailer\Mailer'];
 	}
 
 	/**
