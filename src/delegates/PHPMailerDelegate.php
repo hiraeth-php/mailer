@@ -22,7 +22,7 @@ class PHPMailerDelegate implements Delegate
 	 */
 	static public function getClass()
 	{
-		return 'PHPMailer';
+		return 'PHPMailer\PHPMailer\PHPMailer';
 	}
 
 
