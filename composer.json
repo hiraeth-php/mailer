@@ -1,26 +1,40 @@
 {
     "name": "hiraeth/mailer",
     "description": "PHPMailer w/Twig Templates for the Hiraeth Nano-Framework",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "license": "MIT",
     "authors": [
         {
             "name":  "Matthew J. Sahagian",
-            "email": "msahagian@dotink.org",
+            "email": "matthew.sahagian@gmail.com",
             "role":  "Lead Architect / Developer"
         }
     ],
     "require": {
-        "hiraeth/twig": "^1.0",
+        "hiraeth/app": "^2.0",
+        "hiraeth/templates": "^1.0",
         "phpmailer/phpmailer": "^6.0"
     },
+    "require-dev": {
+        "phpstan/phpstan": "^0.11.8",
+        "phpunit/phpunit": "^8.2"
+    },
     "autoload": {
-        "classmap": ["src/"]
+        "classmap": [
+            "src/"
+        ]
+    },
+    "autoload-dev": {
+        "classmap": [
+            "testing/support"
+        ]
     },
     "type": "opus-package",
     "extra": {
         "opus": {
             "hiraeth/app": {
-                "plugin/config": ""
+                "config": ""
             }
         }
     }

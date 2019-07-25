@@ -2,7 +2,7 @@
 
 namespace Hiraeth\Mailer;
 
-use Twig\Environment as Twig;
+use Hiraeth\Templates;
 use PHPMailer\PHPMailer\PHPMailer;
 
 /**
@@ -19,25 +19,43 @@ class Mailer
 	/**
 	 *
 	 */
+	protected $mail = NULL;
+
+
+	/**
+	 *
+	 */
 	protected $sender = NULL;
 
 
 	/**
 	 *
 	 */
-	public function __construct(PHPMailer $mail, Twig $twig)
+	protected $template = NULL;
+
+
+	/**
+	 *
+	 */
+	protected $templates = NULL;
+
+
+	/**
+	 *
+	 */
+	public function __construct(PHPMailer $mail, Templates\ManagerInterface $templates)
 	{
-		$this->mail = $mail;
-		$this->twig = $twig;
+		$this->mail      = $mail;
+		$this->templates = $templates;
 	}
 
 
 	/**
 	 *
 	 */
-	public function load($template)
+	public function load(string $template): Mailer
 	{
-		$this->template = $this->twig->loadTemplate($template);
+		$this->template = $this->templates->load($template);
 
 		return $this;
 	}
@@ -103,7 +121,7 @@ class Mailer
 	/**
 	 *
 	 */
-	public function setDebug($email, $name)
+	public function setDebugRecipient($email, $name)
 	{
 		$this->debugRecipient = [
 			'name'  => $name,
@@ -127,9 +145,9 @@ class Mailer
 	/**
 	 *
 	 */
-	protected function getMailType()
+	protected function getMailType(): string
 	{
-		return pathinfo($this->template->getTemplateName(), PATHINFO_EXTENSION);
+		return $this->template->getExtension();
 	}
 
 
@@ -138,15 +156,6 @@ class Mailer
 	 */
 	protected function render($data)
 	{
-		$content = $this->template->render($data);
-
-		if (strpos($content, '----') === FALSE) {
-			throw new RuntimeException(sprintf(
-				'The loaded template "%s" does not contain a subject/body separator.',
-				$this->template->getTemplateName()
-			));
-		}
-
-		return $content;
+		return $this->template->setAll($data)->render();
 	}
 }

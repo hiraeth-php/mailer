@@ -2,16 +2,16 @@
 
 namespace Hiraeth\Mailer;
 
-use Hiraeth\Broker;
-use Hiraeth\Delegate;
-use Hiraeth\Application;
-use Hiraeth\Configuration;
+use Hiraeth;
 use PHPMailer\PHPMailer\PHPMailer;
 
 /**
- * Providers add additional dependencies or configuration for objects of certain interfaces.
+ * Delegates are responsible for constructing dependencies for the dependency injector.
+ *
+ * Each delegate operates on a single concrete class and provides the class that it is capable
+ * of building so that it can be registered easily with the application.
  */
-class PHPMailerDelegate implements Delegate
+class PHPMailerDelegate implements Hiraeth\Delegate
 {
 	/**
 	 * Get the class for which the delegate operates.
@@ -20,48 +20,28 @@ class PHPMailerDelegate implements Delegate
 	 * @access public
 	 * @return string The class for which the delegate operates
 	 */
-	static public function getClass()
+	static public function getClass(): string
 	{
-		return 'PHPMailer\PHPMailer\PHPMailer';
+		return PHPMailer::class;
 	}
 
 
 	/**
-	 * Get the interfaces for which the provider operates.
+	 * Get the instance of the class for which the delegate operates.
 	 *
 	 * @access public
-	 * @return array A list of interfaces for which the provider operates
+	 * @param Hiraeth\Application $app The application instance for which the delegate operates
+	 * @return object The instance of the class for which the delegate operates
 	 */
-	static public function getInterfaces()
-	{
-		return [];
-	}
-
-
-	/**
-	 *
-	 */
-	public function __construct(Application $app, Configuration $config)
-	{
-		$this->app = $app;
-	}
-
-
-	/**
-	 * Prepare the instance.
-	 *
-	 * @access public
-	 * @return Object The prepared instance
-	 */
-	public function __invoke(Broker $broker)
+	public function __invoke(Hiraeth\Application $app): object
 	{
 		$mailer   = new PHPMailer();
 		$settings = [
-			'host' => $this->app->getEnvironment('SMTP_HOST', NULL),
-			'user' => $this->app->getEnvironment('SMTP_USER', NULL),
-			'pass' => $this->app->getEnvironment('SMTP_PASS', NULL),
-			'port' => $this->app->getEnvironment('SMTP_PORT', NULL),
-			'tls'  => $this->app->getEnvironment('SMTP_TLS',  NULL),
+			'host' => $app->getEnvironment('SMTP_HOST', NULL),
+			'user' => $app->getEnvironment('SMTP_USER', NULL),
+			'pass' => $app->getEnvironment('SMTP_PASS', NULL),
+			'port' => $app->getEnvironment('SMTP_PORT', NULL),
+			'tls'  => $app->getEnvironment('SMTP_TLS',  NULL),
 		];
 
 		if (isset($settings['host']) && $settings['host']) {
