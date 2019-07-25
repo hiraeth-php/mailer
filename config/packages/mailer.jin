@@ -18,7 +18,7 @@
 	;
 
 	delegates = [
-		"Hiraeth\\ailer\PHPMailerDelegate"
+		"Hiraeth\Mailer\PHPMailerDelegate"
 	]
 
 	;
