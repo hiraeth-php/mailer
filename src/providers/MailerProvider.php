@@ -37,14 +37,14 @@ class MailerProvider implements Hiraeth\Provider
 	public function __invoke(object $instance, Hiraeth\Application $app): object
 	{
 		$instance->setSender(
-			$app->getConfig('mailer', 'mailer.contacts.sender.email', NULL),
-			$app->getConfig('mailer', 'mailer.contacts.sender.name',  NULL)
+			$app->getConfig('packages/mailer', 'mailer.contacts.sender.email', NULL),
+			$app->getConfig('packages/mailer', 'mailer.contacts.sender.name',  NULL)
 		);
 
 		if ($app->getEnvironment('DEBUG', FALSE)) {
 			$instance->setDebugRecipient(
-				$app->getConfig('mailer', 'mailer.contacts.debug.email', NULL),
-				$app->getConfig('mailer', 'mailer.contacts.debug.name',  NULL)
+				$app->getConfig('packages/mailer', 'mailer.contacts.debug.email', NULL),
+				$app->getConfig('packages/mailer', 'mailer.contacts.debug.name',  NULL)
 			);
 		}
 
