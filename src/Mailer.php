@@ -43,7 +43,7 @@ class Mailer
 	/**
 	 *
 	 */
-	public function __construct(PHPMailer $mail, Templates\ManagerInterface $templates)
+	public function __construct(PHPMailer $mail, Templates\Manager $templates)
 	{
 		$this->mail      = $mail;
 		$this->templates = $templates;
