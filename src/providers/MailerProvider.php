@@ -41,6 +41,14 @@ class MailerProvider implements Hiraeth\Provider
 			$app->getConfig('packages/mailer', 'mailer.contacts.sender.name',  NULL)
 		);
 
+		$instance->setAttemptsDelay(
+			$app->getConfig('packages/mailer', 'mailer.attempts.max', 3)
+		);
+
+		$instance->setAttemptsMax(
+			$app->getConfig('packages/mailer', 'mailer.attempts.delay', 500000)
+		);
+
 		if ($app->getEnvironment('DEBUG', FALSE)) {
 			$instance->setDebugRecipient(
 				$app->getConfig('packages/mailer', 'mailer.contacts.debug.email', NULL),
