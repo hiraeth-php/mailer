@@ -44,17 +44,23 @@
 		;
 		; The delay between retry attempts in microseconds.
 		;
-		delay = 500000 ; quarter of a second
+		delay = 250000 ; quarter of a second
 
-	[mailer.contacts.debug]
+	[&.contacts]
 
-		name  = env(MAILER_DEBUG_NAME, null)
-		email = env(MAILER_DEBUG_EMAIL, null)
+		;
+		; The e-mail addresses used by the mailer
+		;
 
-	[mailer.contacts.sender]
+		[&&.debug]
 
-		name  = env(MAILER_SENDER_NAME, null)
-		email = env(MAILER_SENDER_EMAIL, null)
+			name  = env(MAILER_DEBUG_NAME, null)
+			email = env(MAILER_DEBUG_EMAIL, null)
+
+		[&&.sender]
+
+			name  = env(MAILER_SENDER_NAME, null)
+			email = env(MAILER_SENDER_EMAIL, null)
 
 [templates]
 

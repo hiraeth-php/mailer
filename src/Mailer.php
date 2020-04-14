@@ -15,7 +15,7 @@ class Mailer
 	/**
 	 * The delay(in microseconds) before retrying to send.
 	 */
-	protected $attemptDelay = 500000;
+	protected $attemptDelay = 250000;
 
 
 	/**
