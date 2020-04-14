@@ -10,6 +10,20 @@ use PHPMailer\PHPMailer\PHPMailer;
  */
 class Mailer
 {
+
+
+	/**
+	 * The delay(in microseconds) before retrying to send.
+	 */
+	protected $attemptDelay = 500000;
+
+
+	/**
+	 * Number of retries for the mailer.
+	 */
+	protected $attemptsMax = 3;
+
+
 	/**
 	 *
 	 */
@@ -107,14 +121,47 @@ class Mailer
 			}
 		}
 
-		if (!$message->send()) {
-			throw new \RuntimeException(sprintf(
-				'Could not send e-mail: %s',
-				$message->ErrorInfo
-			));
+		foreach (range(1, $this->attemptsMax) as $attempt) {
+			if (!$message->send()) {
+				if ($attempt == $this->attemptsMax) {
+					throw new \RuntimeException(sprintf(
+						'Could not send e-mail: %s',
+						$message->ErrorInfo
+					));
+				} else {
+					usleep($this->attemptsDelay);
+				}
+
+			} else {
+				break;
+			}
 		}
 
 		return $message->Body;
+	}
+
+
+	/**
+	 * Set the delay(in microseconds) between retries.
+	 *
+	 * @param integer $delay - in micorseconds
+	 * @return void
+	 */
+	public function setAttemptsDelay(int $delay)
+	{
+		$this->attemptDelay = $delay;
+	}
+
+
+	/**
+	 * Set the max number of retry attempts.
+	 *
+	 * @param integer $attempts
+	 * @return void
+	 */
+	public function setAttemptsMax(int $attempts)
+	{
+		$this->attemptsMax = $attempts;
 	}
 
 

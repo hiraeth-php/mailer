@@ -34,6 +34,17 @@
 	]
 
 [mailer]
+	[&.attempts]
+
+		;
+		; If the mailer fails it will retry at most the max number of times.
+		;
+		max = 3
+
+		;
+		; The delay between retry attempts in microseconds.
+		;
+		delay = 500000 ; quarter of a second
 
 	[mailer.contacts.debug]
 
