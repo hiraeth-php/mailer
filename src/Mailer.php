@@ -15,7 +15,7 @@ class Mailer
 	/**
 	 * The delay(in microseconds) before retrying to send.
 	 */
-	protected $attemptDelay = 250000;
+	protected $attemptsDelay = 250000;
 
 
 	/**
@@ -149,7 +149,7 @@ class Mailer
 	 */
 	public function setAttemptsDelay(int $delay)
 	{
-		$this->attemptDelay = $delay;
+		$this->attemptsDelay = $delay;
 	}
 
 
