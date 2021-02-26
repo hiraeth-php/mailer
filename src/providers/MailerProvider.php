@@ -42,11 +42,11 @@ class MailerProvider implements Hiraeth\Provider
 		);
 
 		$instance->setAttemptsDelay(
-			$app->getConfig('packages/mailer', 'mailer.attempts.max', 3)
+			$app->getConfig('packages/mailer', 'mailer.attempts.delay', 500000)
 		);
 
 		$instance->setAttemptsMax(
-			$app->getConfig('packages/mailer', 'mailer.attempts.delay', 500000)
+			$app->getConfig('packages/mailer', 'mailer.attempts.max', 3)
 		);
 
 		if ($app->getEnvironment('DEBUG', FALSE)) {
