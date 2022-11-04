@@ -14,44 +14,48 @@ class Mailer
 
 	/**
 	 * The delay(in microseconds) before retrying to send.
+	 *
+	 * @var int
 	 */
 	protected $attemptsDelay = 250000;
 
 
 	/**
 	 * Number of retries for the mailer.
+	 *
+	 * @var int
 	 */
 	protected $attemptsMax = 3;
 
 
 	/**
-	 *
+	 * @var null|array{name: string, email: string}
 	 */
 	protected $debugRecipient = NULL;
 
 
 	/**
-	 *
+	 * @var PHPMailer
 	 */
-	protected $mail = NULL;
+	protected $mail;
 
 
 	/**
-	 *
+	 * @var null|array{name: string, email: string}
 	 */
 	protected $sender = NULL;
 
 
 	/**
-	 *
+	 * @var Templates\Template
 	 */
-	protected $template = NULL;
+	protected $template;
 
 
 	/**
-	 *
+	 * @var Templates\Manager
 	 */
-	protected $templates = NULL;
+	protected $templates;
 
 
 	/**
@@ -76,11 +80,11 @@ class Mailer
 
 
 	/**
-	 *
+	 * @param array<string, mixed> $data
 	 */
-	public function send(callable $addresser, $data)
+	public function send(callable $addresser, $data): string
 	{
-		if (!$this->template) {
+		if (!$this->template instanceof Templates\Template) {
 			throw new \RuntimeException(sprintf(
 				'Cannot send e-mail without a template.  Try calling load().'
 			));
@@ -145,11 +149,12 @@ class Mailer
 	 * Set the delay(in microseconds) between retries.
 	 *
 	 * @param integer $delay - in micorseconds
-	 * @return void
 	 */
-	public function setAttemptsDelay(int $delay)
+	public function setAttemptsDelay(int $delay): Mailer
 	{
 		$this->attemptsDelay = $delay;
+
+		return $this;
 	}
 
 
@@ -157,35 +162,40 @@ class Mailer
 	 * Set the max number of retry attempts.
 	 *
 	 * @param integer $attempts
-	 * @return void
 	 */
-	public function setAttemptsMax(int $attempts)
+	public function setAttemptsMax(int $attempts): Mailer
 	{
 		$this->attemptsMax = $attempts;
+
+		return $this;
 	}
 
 
 	/**
 	 *
 	 */
-	public function setDebugRecipient($email, $name)
+	public function setDebugRecipient(string $email, string $name): Mailer
 	{
 		$this->debugRecipient = [
 			'name'  => $name,
 			'email' => $email
 		];
+
+		return $this;
 	}
 
 
 	/**
 	 *
 	 */
-	public function setSender($email, $name)
+	public function setSender(string $email, string $name): Mailer
 	{
 		$this->sender = [
 			'name'  => $name,
 			'email' => $email
 		];
+
+		return $this;
 	}
 
 
@@ -199,9 +209,9 @@ class Mailer
 
 
 	/**
-	 *
+	 * @param array<string, mixed> $data
 	 */
-	protected function render($data)
+	protected function render(array $data): string
 	{
 		return $this->template->setAll($data)->render();
 	}
