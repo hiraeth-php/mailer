@@ -31,8 +31,8 @@ class MailerProvider implements Hiraeth\Provider
 	public function __invoke(object $instance, Hiraeth\Application $app): object
 	{
 		$instance->setSender(
-			$app->getConfig('packages/mailer', 'mailer.contacts.sender.email', NULL),
-			$app->getConfig('packages/mailer', 'mailer.contacts.sender.name',  NULL)
+			$app->getConfig('packages/mailer', 'mailer.contacts.sender.email', 'noreplay@hiraeth.dev'),
+			$app->getConfig('packages/mailer', 'mailer.contacts.sender.name',  'No Reply')
 		);
 
 		$instance->setAttemptsDelay(
