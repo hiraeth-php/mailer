@@ -103,7 +103,7 @@ class Mailer
 		$content = $this->render($data);
 		$content = explode('----', $content, 2);
 
-		$message->Subject = $content[0];
+		$message->Subject = strip_tags($content[0]);
 		$message->Body    = $content[1];
 
 		if ($this->sender) {
