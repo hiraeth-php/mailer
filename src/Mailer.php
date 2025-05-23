@@ -4,6 +4,7 @@ namespace Hiraeth\Mailer;
 
 use Hiraeth\Templates;
 use PHPMailer\PHPMailer\PHPMailer;
+use RuntimeException;
 
 /**
  *
@@ -102,6 +103,16 @@ class Mailer
 
 		$content = $this->render($data);
 		$content = explode('----', $content, 2);
+
+		if (count($content) != 2) {
+			$content[1] = $content[0];
+
+			if (preg_match('#<title>(.*)</title>#', $content[1], $matches)) {
+				$content[0] = $matches[1];
+			} else {
+				throw new RuntimeException('Could not determine e-mail subject');
+			}
+		}
 
 		$message->Subject = strip_tags($content[0]);
 		$message->Body    = $content[1];
